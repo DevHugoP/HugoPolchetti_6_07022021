@@ -3,10 +3,14 @@ const fs = require("fs");
 
 exports.createSauce = (req, res, next) => {
 	const sauceObject = JSON.parse(req.body.sauce);
-	delete sauceObject._id;
+	console.log(sauceObject);
 	const sauce = new Sauce({
 		...sauceObject,
-		imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+		imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+		likes: 0,
+		dislikes: 0,
+		usersLiked: [],
+		usersDisliked: []
 	});
 	sauce
 		.save()
@@ -14,6 +18,23 @@ exports.createSauce = (req, res, next) => {
 		.catch((error) => res.status(400).json({ error }));
 };
 
+exports.likeSauce = (req, res, next) => {
+	Sauce.findOne({
+		_id: req.params.id
+	}).then(() => {
+		let userId = req.body.userId;
+		let like = req.body.like;
+		res.status(200).json();
+		console.log(req.body.like);
+		console.log(req.body.userId);
+		Sauce.usersLiked.push(1);
+		console.log(usersLiked);
+	});
+
+	// const sauceObj = JSON.parse(req.body.sauce);
+	// console.log(sauceObj);
+	// res.status(201).json();
+};
 exports.getOneSauce = (req, res, next) => {
 	Sauce.findOne({
 		_id: req.params.id
