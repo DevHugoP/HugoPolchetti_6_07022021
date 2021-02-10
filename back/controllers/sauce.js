@@ -21,19 +21,40 @@ exports.createSauce = (req, res, next) => {
 exports.likeSauce = (req, res, next) => {
 	Sauce.findOne({
 		_id: req.params.id
-	}).then(() => {
+	}).then((sauce) => {
 		let userId = req.body.userId;
 		let like = req.body.like;
-		res.status(200).json();
 		console.log(req.body.like);
 		console.log(req.body.userId);
-		Sauce.usersLiked.push(1);
-		console.log(usersLiked);
-	});
+		res.status(200).json();
+		function arrayLike() {
+			if (like === 1) {
+				sauce.likes++;
+				sauce.usersLiked.push(userId);
+				return;
+			}
+			if (like === -1) {
+				// si le nombre arrivant de la requete est -1 alors c'est un dislike on va donc augmenter le compte de dislikes et rajouter l'id de l'utilisateur dans le tableau des dislike
+				sauce.dislikes++;
+				sauce.usersDisliked.push(userId);
+				return;
+			}
+			if (like === 0) {
+				//Si le nombre dans la requète est 0 alors il faut vérifier si l'utilisateur avait auparavant liké ou disliké la sauce en vérifiant sa présence dans chaque tableau pour pouvoir le retirer du tableau concerné et ajuster le compte
+				if (sauce.usersLiked.indexOf(userId) === -1) {
+					sauce.dislikes--;
+					sauce.usersDisliked.splice(sauce.usersDisliked.indexOf(userId), 1);
+				} else if (sauce.usersLiked.indexOf(userId) !== -1) {
+					sauce.likes--;
+					sauce.usersLiked.splice(sauce.usersLiked.indexOf(userId), 1);
+				}
+			}
+		}
+		arrayLike();
 
-	// const sauceObj = JSON.parse(req.body.sauce);
-	// console.log(sauceObj);
-	// res.status(201).json();
+		sauce.save();
+		console.log(sauce);
+	});
 };
 exports.getOneSauce = (req, res, next) => {
 	Sauce.findOne({
