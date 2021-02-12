@@ -24,8 +24,6 @@ exports.likeSauce = (req, res, next) => {
 	}).then((sauce) => {
 		let userId = req.body.userId;
 		let like = req.body.like;
-		console.log(req.body.like);
-		console.log(req.body.userId);
 		res.status(200).json();
 		function arrayLike() {
 			if (like === 1) {
@@ -53,7 +51,6 @@ exports.likeSauce = (req, res, next) => {
 		arrayLike();
 
 		sauce.save();
-		console.log(sauce);
 	});
 };
 exports.getOneSauce = (req, res, next) => {
@@ -71,6 +68,12 @@ exports.getOneSauce = (req, res, next) => {
 };
 
 exports.modifySauce = (req, res, next) => {
+	if (req.file) {
+		Sauce.findOne({ _id: req.params.id }).then((sauce) => {
+			const filename = sauce.imageUrl.split("/images/")[1];
+			fs.unlink(`images/${filename}`, () => {});
+		});
+	}
 	const sauceObject = req.file
 		? {
 				...JSON.parse(req.body.sauce),
