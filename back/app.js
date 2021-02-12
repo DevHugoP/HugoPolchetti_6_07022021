@@ -4,15 +4,15 @@ const mongoose = require("mongoose");
 const sauceRoutes = require("./routes/sauce");
 const userRoutes = require("./routes/user");
 const path = require("path");
+require("dotenv").config({ path: "../.env" });
+
+const apiKey = process.env.API_KEY;
 
 mongoose
-	.connect(
-		"mongodb+srv://karmelit:polchetti59@cluster0.ddryw.mongodb.net/?retryWrites=true&w=majority",
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true
-		}
-	)
+	.connect(`mongodb+srv://${apiKey}@cluster0.ddryw.mongodb.net/?retryWrites=true&w=majority`, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true
+	})
 	.then(() => console.log("La connexion à MongoDB à réussie !"))
 	.catch(() => console.log("La connexion à MongoDB à échouée !"));
 
