@@ -8,14 +8,14 @@ Stack BACK-END => Node.js, Express, MongoDb
 
 Pour lancer le projet sur sa machine il faut  :
 
-cd dwj-projet6 
+$ cd dwj-projet6 
 
-npm install && start (permet de lancer l'application front)
+$ npm install && start (permet de lancer l'application front)
 
 [récupérer ma clef api  Ou ajouter sa propre clef dans le fichier App.js qui contient les infos de connexion à MongoDB voir le fichier .env_sample]
 
-cd back 
+$ cd back 
 
-nodemon server (permet de lancer le server Node)
+$ nodemon server (permet de lancer le server Node)
 
 
