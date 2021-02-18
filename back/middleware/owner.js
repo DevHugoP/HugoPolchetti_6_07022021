@@ -1,4 +1,4 @@
-// l'objectif du middleware ici est de faire en sorte que les requests PUT soient forcement du proprietaire de la sauce OU  alert 'vous nêtes pas proprietaire de la sauce'
+// l'objectif du middleware ici est de faire en sorte que les requests PUT soient forcement du proprietaire de la sauce OU  indique à l'emmeteur 'vous nêtes pas proprietaire de la sauce'
 const jwt = require("jsonwebtoken");
 const Sauce = require("../models/Sauce");
 
@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
 	Sauce.findOne({ _id: req.params.id }).then((sauce) => {
 		console.log(userId);
 		console.log(sauce.userId);
-		if (!(sauce.userId === userId)) {
+		if (sauce.userId !== userId) {
 			console.log(
 				"Le proprietaire de la sauce et l'utilisateur demandant la modification sont différents"
 			);

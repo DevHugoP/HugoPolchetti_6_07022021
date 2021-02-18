@@ -9,7 +9,7 @@ require("dotenv").config({ path: "../.env" });
 const apiKey = process.env.API_KEY;
 
 mongoose
-	.connect(`mongodb+srv://${apiKey}@cluster0.ddryw.mongodb.net/?retryWrites=true&w=majority`, {
+	.connect(`${apiKey}`, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true
 	})
